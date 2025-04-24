@@ -30,6 +30,8 @@ interface BountyContextType {
     fetchAllBountiesData: () => Promise<void>;
     fetchActiveBountiesData: () => Promise<void>;
     fetchBountyDetail: (id: number) => Promise<Bounty | null>;
+    view: 'active' | 'all';
+    setView: (view: 'active' | 'all') => void;
 }
 
 const BountyContext = createContext<BountyContextType | undefined>(undefined);
@@ -50,6 +52,7 @@ export function BountyProvider({ children }: { children: ReactNode }) {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [selectedNetwork, setSelectedNetwork] = useState<'polkadot' | 'kusama'>('polkadot');
+    const [view, setView] = useState<'active' | 'all'>('active');
 
     const fetchAllBountiesData = async () => {
         setIsLoading(true);
@@ -221,7 +224,9 @@ export function BountyProvider({ children }: { children: ReactNode }) {
                 setSelectedNetwork,
                 fetchAllBountiesData,
                 fetchActiveBountiesData,
-                fetchBountyDetail
+                fetchBountyDetail,
+                view,
+                setView
             }}
         >
             {children}

@@ -12,20 +12,47 @@ export default function Home() {
         error,
         selectedNetwork,
         setSelectedNetwork,
-        fetchActiveBountiesData
+        fetchActiveBountiesData,
+        fetchAllBountiesData,
+        view,
+        setView
     } = useBounty();
 
-    const activeBounties = networkData[selectedNetwork].activeBounties;
+    const bounties = view === 'active'
+        ? networkData[selectedNetwork].activeBounties
+        : networkData[selectedNetwork].allBounties;
+
+    const handleRefresh = () => {
+        if (view === 'active') {
+            fetchActiveBountiesData();
+        } else {
+            fetchAllBountiesData();
+        }
+    };
 
     return (
         <main className={styles.container}>
-            <h1 className={styles.title}>Active Treasury Bounties</h1>
+            <h1 className={styles.title}>Polkadot Treasury Bounties</h1>
 
             <NetworkSelector onNetworkChange={setSelectedNetwork} initialNetwork={selectedNetwork} />
 
             <div className={styles.controls}>
+                <div className={styles.viewToggle}>
+                    <button
+                        className={`${styles.toggleButton} ${view === 'active' ? styles.active : ''}`}
+                        onClick={() => setView('active')}
+                    >
+                        Active
+                    </button>
+                    <button
+                        className={`${styles.toggleButton} ${view === 'all' ? styles.active : ''}`}
+                        onClick={() => setView('all')}
+                    >
+                        All
+                    </button>
+                </div>
                 <button
-                    onClick={fetchActiveBountiesData}
+                    onClick={handleRefresh}
                     disabled={isLoading}
                     className={styles.refreshButton}
                 >
@@ -41,8 +68,8 @@ export default function Home() {
             )}
 
             <div className={styles.cardGrid}>
-                {activeBounties.length > 0 ? (
-                    activeBounties.map((bounty) => (
+                {bounties.length > 0 ? (
+                    bounties.map((bounty) => (
                         <BountyCard key={bounty.proposal_id} bounty={bounty} network={selectedNetwork} />
                     ))
                 ) : (
