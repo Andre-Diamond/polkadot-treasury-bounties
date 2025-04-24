@@ -1,0 +1,76 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+}
+
+.logo {
+    margin-bottom: 2rem;
+}
+
+.ctas {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.primary {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background-color: var(--accent-color);
+    color: #fff;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+.primary:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-1px);
+}
+
+.secondary {
+    padding: 0.75rem 1.5rem;
+    border: 1px solid var(--text-primary);
+    color: var(--text-primary);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: border-color 0.2s, transform 0.1s;
+}
+
+.secondary:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    transform: translateY(-1px);
+}
+
+.footer {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 1rem;
+    text-decoration: none;
+    color: var(--text-secondary);
+    transition: color 0.2s;
+}
+
+.footer a:hover {
+    color: var(--accent-color);
+}

@@ -1,0 +1,173 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.title {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+    border-bottom: 3px solid var(--accent-color);
+    padding-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.controls {
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.refreshButton {
+    padding: 0.6rem 1.2rem;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s, transform 0.1s;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.refreshButton:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-1px);
+}
+
+.refreshButton:disabled {
+    background-color: var(--accent-disabled);
+    cursor: not-allowed;
+    transform: none;
+}
+
+.errorMessage {
+    color: var(--error-color);
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background-color: var(--error-bg);
+    border-left: 4px solid var(--error-color);
+    border-radius: 4px;
+}
+
+/* Card Grid Layout */
+.cardGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+}
+
+.card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--card-border);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--hover-shadow);
+}
+
+.cardHeader {
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.cardContent {
+    padding: 1.25rem;
+    flex-grow: 1;
+}
+
+.cardFooter {
+    padding: 1rem 1.25rem;
+    background-color: var(--card-footer-bg);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.bountyId {
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.bountyTitle {
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.bountyProposer {
+    font-family: monospace;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.bountyDescription {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.4;
+    margin-bottom: 0.5rem;
+}
+
+.bountyValue {
+    font-weight: 500;
+    color: var(--status-active-text);
+    font-size: 1.1rem;
+}
+
+.bountyStatus {
+    display: inline-block;
+    padding: 0.4rem 0.75rem;
+    border-radius: 16px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.statusActive {
+    background-color: var(--status-active-bg);
+    color: var(--status-active-text);
+}
+
+.statusPending {
+    background-color: var(--status-pending-bg);
+    color: var(--status-pending-text);
+}
+
+.emptyState {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-muted);
+    font-style: italic;
+    background-color: var(--card-bg);
+    grid-column: 1 / -1;
+    border-radius: 8px;
+    border: 1px solid var(--card-border);
+}
+
+/* Keep media query for mobile responsiveness */
+@media (max-width: 768px) {
+    .cardGrid {
+        grid-template-columns: 1fr;
+    }
+}
