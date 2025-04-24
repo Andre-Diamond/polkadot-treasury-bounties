@@ -6,28 +6,17 @@
 }
 
 .backButton {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    margin-bottom: 1.5rem;
-    padding: 0.5rem 1rem;
-    background-color: rgba(46, 46, 46, 0.6);
-    border-radius: 6px;
-    color: var(--text-primary);
+    gap: 0.5rem;
+    color: var(--text-secondary);
     text-decoration: none;
     font-weight: 500;
-    transition: all 0.2s ease;
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--border-color);
-}
-
-.backButton svg {
-    margin-right: 8px;
+    transition: color 0.2s ease;
 }
 
 .backButton:hover {
-    background-color: rgba(54, 54, 54, 0.8);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    color: var(--text-primary);
 }
 
 .loading,
@@ -82,11 +71,8 @@
 .header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
-    padding: 1.5rem;
-    border-bottom: 1px solid var(--border-color);
-    gap: 1rem;
-    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 2rem;
 }
 
 .title {
@@ -366,4 +352,45 @@
     color: var(--text-secondary);
     font-size: 0.85rem;
     opacity: 0.8;
+}
+
+.networkSelector {
+    position: relative;
+}
+
+.networkSelect {
+    padding: 0.5rem 2rem 0.5rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    appearance: none;
+    transition: all 0.2s ease;
+}
+
+.networkSelect:hover {
+    border-color: var(--accent-color);
+}
+
+.networkSelect:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.2);
+}
+
+.networkSelector::after {
+    content: '';
+    position: absolute;
+    right: 0.75rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 5px solid var(--text-secondary);
+    pointer-events: none;
 }

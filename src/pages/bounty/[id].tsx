@@ -4,15 +4,19 @@ import Link from 'next/link';
 import { fetchBountyById } from '../../services/bountyService';
 import type { Bounty } from '../../types/bounty';
 import styles from '../../styles/BountyDetail.module.css';
-import { formatDOTAmount } from '../../lib/format';
+import { formatTokenAmount } from '../../lib/format';
 import { getStatusClass, formatStatus, StylesType } from '../../lib/statusUtils';
+import { networks } from '../../config/networks';
 
 export default function BountyDetailPage() {
     const router = useRouter();
-    const { id } = router.query;
+    const { id, network } = router.query;
     const [bounty, setBounty] = useState<Bounty | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [selectedNetwork, setSelectedNetwork] = useState<'polkadot' | 'kusama'>(
+        (network as 'polkadot' | 'kusama') || 'polkadot'
+    );
 
     useEffect(() => {
         if (!id) return;
@@ -23,7 +27,7 @@ export default function BountyDetailPage() {
             try {
                 const proposalId = parseInt(id as string, 10);
                 console.log(`Fetching bounty with ID: ${proposalId}`);
-                const data = await fetchBountyById(proposalId);
+                const data = await fetchBountyById(proposalId, selectedNetwork);
                 if (data) {
                     console.log('Bounty data fetched successfully:', data);
                     setBounty(data);
@@ -40,7 +44,14 @@ export default function BountyDetailPage() {
         };
 
         getBountyDetails();
-    }, [id]);
+    }, [id, selectedNetwork]);
+
+    // Update URL when network changes
+    useEffect(() => {
+        if (network !== selectedNetwork) {
+            router.push(`/bounty/${id}?network=${selectedNetwork}`, undefined, { shallow: true });
+        }
+    }, [selectedNetwork, id, network, router]);
 
     // Helper function to format date
     const formatDate = (timestamp?: number) => {
@@ -54,11 +65,11 @@ export default function BountyDetailPage() {
         return `${address.slice(0, 6)}...${address.slice(-6)}`;
     };
 
-    // Helper function to format DOT values
-    const formatDOTValue = (value: string): React.ReactNode => {
+    // Helper function to format token values
+    const formatTokenValue = (value: string): React.ReactNode => {
         if (!value) return '';
-        if (value.includes('DOT')) return value;
-        const formattedValue = formatDOTAmount(value);
+        if (value.includes(networks[selectedNetwork].symbol)) return value;
+        const formattedValue = formatTokenAmount(value, selectedNetwork);
         return (
             <span className={styles.dotValue}>{formattedValue}</span>
         );
@@ -74,12 +85,27 @@ export default function BountyDetailPage() {
 
     return (
         <div className={styles.container}>
-            <Link href="/" className={styles.backButton}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M19 12H5M12 19l-7-7 7-7" />
-                </svg>
-                Back
-            </Link>
+            <div className={styles.header}>
+                <Link href="/" className={styles.backButton}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M19 12H5M12 19l-7-7 7-7" />
+                    </svg>
+                    Back
+                </Link>
+                <div className={styles.networkSelector}>
+                    <select
+                        value={selectedNetwork}
+                        onChange={(e) => setSelectedNetwork(e.target.value as 'polkadot' | 'kusama')}
+                        className={styles.networkSelect}
+                    >
+                        {Object.entries(networks).map(([key, network]) => (
+                            <option key={key} value={key}>
+                                {network.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+            </div>
 
             {isLoading && <div className={styles.loading}>Loading bounty details...</div>}
             {error && <div className={styles.error}>{error}</div>}
@@ -99,12 +125,12 @@ export default function BountyDetailPage() {
                     <div className={styles.twoColGrid}>
                         <div className={styles.mainContent}>
                             <div className={styles.metadataCard}>
-                                <div className={styles.value}>{formatDOTValue(bounty.value)}</div>
+                                <div className={styles.value}>{formatTokenValue(bounty.value)}</div>
                                 <div className={styles.metadataGrid}>
                                     {bounty.bond && (
                                         <div>
                                             <span>Bond</span>
-                                            <div>{formatDOTValue(bounty.bond)}</div>
+                                            <div>{formatTokenValue(bounty.bond)}</div>
                                         </div>
                                     )}
                                     {(bounty.block_timestamp || bounty.created_block) && (
@@ -210,10 +236,10 @@ export default function BountyDetailPage() {
 
                                         <div className={styles.curatorInfo}>
                                             {bounty.curator_fee && (
-                                                <div><span>Fee</span> {formatDOTValue(bounty.curator_fee)}</div>
+                                                <div><span>Fee</span> {formatTokenValue(bounty.curator_fee)}</div>
                                             )}
                                             {bounty.curator_deposit && (
-                                                <div><span>Deposit</span> {formatDOTValue(bounty.curator_deposit)}</div>
+                                                <div><span>Deposit</span> {formatTokenValue(bounty.curator_deposit)}</div>
                                             )}
                                         </div>
                                     </div>

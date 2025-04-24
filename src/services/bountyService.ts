@@ -12,10 +12,14 @@ type SubscanBountiesResponse = {
     message: string;
 };
 
-export const fetchBountiesFromSubscan = async (page = 0, status = 'active'): Promise<Bounty[]> => {
+export const fetchBountiesFromSubscan = async (
+    network: 'polkadot' | 'kusama' = 'polkadot',
+    page = 0,
+    status = 'active'
+): Promise<Bounty[]> => {
     try {
         const { data } = await axios.get<SubscanBountiesResponse>(
-            `/api/bounties?page=${page}&status=${status}`
+            `/api/bounties?network=${network}&page=${page}&status=${status}`
         );
         return data.data.list;
     } catch (err) {
@@ -24,12 +28,12 @@ export const fetchBountiesFromSubscan = async (page = 0, status = 'active'): Pro
     }
 };
 
-export const fetchAllBounties = async (): Promise<Bounty[]> => {
+export const fetchAllBounties = async (network: 'polkadot' | 'kusama' = 'polkadot'): Promise<Bounty[]> => {
     try {
         // Fetch both active and historical bounties
         const [activeBounties, historicalBounties] = await Promise.all([
-            fetchBountiesFromSubscan(0, 'active'),
-            fetchBountiesFromSubscan(0, 'historical')
+            fetchBountiesFromSubscan(network, 0, 'active'),
+            fetchBountiesFromSubscan(network, 0, 'historical')
         ]);
 
         // Combine the results
@@ -40,11 +44,11 @@ export const fetchAllBounties = async (): Promise<Bounty[]> => {
     }
 };
 
-export const fetchBountyById = async (proposalId: number): Promise<Bounty | null> => {
+export const fetchBountyById = async (proposalId: number, network: 'polkadot' | 'kusama' = 'polkadot'): Promise<Bounty | null> => {
     try {
         const { data } = await axios.post<{ bounty?: Bounty; error?: string }>(
             '/api/bounty',
-            { proposal_id: proposalId }
+            { proposal_id: proposalId, network }
         );
 
         if (data.error || !data.bounty) {
