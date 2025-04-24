@@ -12,7 +12,7 @@ type SubscanError = {
     code: number;
 };
 
-type SubscanResponse = {
+type SubscanBountiesResponse = {
     code: number;
     data: {
         count: number;
@@ -26,13 +26,13 @@ type BountyStatus = 'historical' | 'active';
 
 export default async function handler(
     req: NextApiRequest,
-    res: NextApiResponse<SubscanResponse | { error?: string }>
+    res: NextApiResponse<SubscanBountiesResponse | { error?: string }>
 ) {
     try {
         const page = parseInt((req.query.page as string) || '0', 10);
         const status = (req.query.status as BountyStatus) || 'active';
 
-        const { data } = await axios.post<SubscanResponse>(
+        const { data } = await axios.post<SubscanBountiesResponse>(
             `${BASE_URL}/scan/bounties/proposals`,
             {
                 row: 100,

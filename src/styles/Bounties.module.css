@@ -73,6 +73,7 @@
     display: flex;
     flex-direction: column;
     border: 1px solid var(--card-border);
+    cursor: pointer;
 }
 
 .card:hover {
@@ -153,6 +154,16 @@
 .statusPending {
     background-color: var(--status-pending-bg);
     color: var(--status-pending-text);
+}
+
+.statusAwarded {
+    background-color: rgba(16, 185, 129, 0.15);
+    color: #10B981;
+}
+
+.statusRejected {
+    background-color: rgba(239, 68, 68, 0.15);
+    color: #EF4444;
 }
 
 .emptyState {

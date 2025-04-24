@@ -2,7 +2,7 @@
 import axios from 'axios';
 import type { Bounty } from '../types/bounty';
 
-type SubscanResponse = {
+type SubscanBountiesResponse = {
     code: number;
     data: {
         count: number;
@@ -14,7 +14,7 @@ type SubscanResponse = {
 
 export const fetchBountiesFromSubscan = async (page = 0, status = 'active'): Promise<Bounty[]> => {
     try {
-        const { data } = await axios.get<SubscanResponse>(
+        const { data } = await axios.get<SubscanBountiesResponse>(
             `/api/bounties?page=${page}&status=${status}`
         );
         return data.data.list;
@@ -37,5 +37,23 @@ export const fetchAllBounties = async (): Promise<Bounty[]> => {
     } catch (err) {
         console.error('[Service] Failed to fetch all bounties:', err);
         return [];
+    }
+};
+
+export const fetchBountyById = async (proposalId: number): Promise<Bounty | null> => {
+    try {
+        const { data } = await axios.post<{ bounty?: Bounty; error?: string }>(
+            '/api/bounty',
+            { proposal_id: proposalId }
+        );
+
+        if (data.error || !data.bounty) {
+            throw new Error(data.error || 'Bounty not found');
+        }
+
+        return data.bounty;
+    } catch (err) {
+        console.error('[Service] Failed to fetch bounty details:', err);
+        return null;
     }
 };

@@ -33,7 +33,7 @@ export default function Home() {
             };
             localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
 
-            //console.log('Fetched bounties:', data);
+            console.log('Fetched bounties:', data);
         } catch (error) {
             console.error('Error fetching bounties:', error);
             setError('Failed to fetch bounties. Please try again.');

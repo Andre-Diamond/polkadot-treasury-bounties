@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import axios, { AxiosError } from 'axios';
-import type { Bounty } from '../../types/bounty';
+import type { Bounty, SubscanBountyResponse } from '../../types/bounty';
 import { formatDOTAmount } from '../../lib/format';
 
 const SUBSCAN_API_KEY = process.env.SUBSCAN_API_KEY!;
@@ -9,13 +9,6 @@ const BASE_URL = 'https://polkadot.api.subscan.io/api';
 type SubscanError = {
     message: string;
     code: number;
-};
-
-type SubscanResponse = {
-    code: number;
-    data: Bounty;
-    generated_at: number;
-    message: string;
 };
 
 export default async function handler(
@@ -33,7 +26,7 @@ export default async function handler(
             return res.status(400).json({ error: 'proposal_id is required' });
         }
 
-        const { data } = await axios.post<SubscanResponse>(
+        const { data } = await axios.post<SubscanBountyResponse>(
             `${BASE_URL}/scan/bounties/proposal`,
             {
                 proposal_id

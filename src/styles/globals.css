@@ -1,5 +1,5 @@
 :root {
-    /* Dark mode is the default */
+    /* Dark mode only */
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 25, 25, 28;
     --background-end-rgb: 15, 15, 18;
@@ -8,9 +8,9 @@
     --text-primary: #F9FAFB;
     --text-secondary: #D1D5DB;
     --text-muted: #9CA3AF;
-    --accent-color: #E6007A;
-    --accent-hover: #C40067;
-    --accent-disabled: #e67db1;
+    --accent-color: #FF0080;
+    --accent-hover: #D10069;
+    --accent-disabled: #FF80BF;
     --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     --hover-shadow: 0 10px 15px rgba(0, 0, 0, 0.4);
     --border-color: #374151;
@@ -23,32 +23,6 @@
     --card-footer-bg: #111827;
 }
 
-@media (prefers-color-scheme: light) {
-    :root {
-        --foreground-rgb: 0, 0, 0;
-        --background-start-rgb: 214, 219, 220;
-        --background-end-rgb: 255, 255, 255;
-        --card-bg: #ffffff;
-        --card-border: #eaeaea;
-        --text-primary: #1A1A1A;
-        --text-secondary: #444444;
-        --text-muted: #666666;
-        --accent-color: #E6007A;
-        --accent-hover: #d1006e;
-        --accent-disabled: #f5a6ca;
-        --card-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        --hover-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-        --border-color: #eaeaea;
-        --error-color: #e53e3e;
-        --error-bg: #feeef3;
-        --status-active-bg: #e3f8e3;
-        --status-active-text: #2e7d32;
-        --status-pending-bg: #fff8e0;
-        --status-pending-text: #b78105;
-        --card-footer-bg: #f9f9f9;
-    }
-}
-
 body {
     margin: 0;
     padding: 0;
@@ -56,4 +30,44 @@ body {
     background: linear-gradient(to bottom,
             transparent,
             rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+/* Fix for blurry pink text */
+* {
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Specific fix for pink text elements */
+.timelineStatus,
+.value,
+.timelineItem:before,
+.timelineItem,
+.bountyDetail::before,
+.navLink {
+    text-rendering: geometricPrecision;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 600;
+    /* Slightly increase font weight for better rendering */
+}
+
+/* Custom selector to override elements using accent-color */
+[style*="--accent-color"],
+*[style*="color:var(--accent-color)"],
+.value,
+.timelineStatus,
+.timelineItem:before,
+.timelineItem,
+.bountyDetail::before,
+.navLink {
+    color: #FF0080 !important;
+    /* Force the color instead of using the variable */
+    -webkit-font-smoothing: antialiased !important;
+    -moz-osx-font-smoothing: grayscale !important;
+    text-rendering: geometricPrecision !important;
+    font-weight: 600 !important;
 }
