@@ -14,9 +14,7 @@ export default function BountyDetailPage() {
     const [bounty, setBounty] = useState<Bounty | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [selectedNetwork, setSelectedNetwork] = useState<'polkadot' | 'kusama'>(
-        (network as 'polkadot' | 'kusama') || 'polkadot'
-    );
+    const selectedNetwork = (network as 'polkadot' | 'kusama') || 'polkadot';
 
     useEffect(() => {
         if (!id) return;
@@ -92,18 +90,8 @@ export default function BountyDetailPage() {
                     </svg>
                     Back
                 </Link>
-                <div className={styles.networkSelector}>
-                    <select
-                        value={selectedNetwork}
-                        onChange={(e) => setSelectedNetwork(e.target.value as 'polkadot' | 'kusama')}
-                        className={styles.networkSelect}
-                    >
-                        {Object.entries(networks).map(([key, network]) => (
-                            <option key={key} value={key}>
-                                {network.name}
-                            </option>
-                        ))}
-                    </select>
+                <div className={styles.networkDisplay}>
+                    {networks[selectedNetwork].name}
                 </div>
             </div>
 

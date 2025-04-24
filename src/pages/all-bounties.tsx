@@ -3,18 +3,20 @@ import { fetchAllBounties } from '../services/bountyService';
 import type { Bounty } from '../types/bounty';
 import styles from '../styles/Bounties.module.css';
 import BountyCard from '../components/BountyCard';
+import NetworkSelector from '../components/NetworkSelector';
 import Link from 'next/link';
 
 export default function AllBounties() {
     const [bounties, setBounties] = useState<Bounty[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const [selectedNetwork, setSelectedNetwork] = useState<'polkadot' | 'kusama'>('polkadot');
 
     const fetchBounties = async () => {
         setIsLoading(true);
         setError(null);
         try {
-            const data = await fetchAllBounties();
+            const data = await fetchAllBounties(selectedNetwork);
             setBounties(data);
             console.log('Fetched all bounties:', data);
         } catch (error) {
@@ -27,7 +29,7 @@ export default function AllBounties() {
 
     useEffect(() => {
         fetchBounties();
-    }, []);
+    }, [selectedNetwork]);
 
     return (
         <main className={styles.container}>
@@ -39,6 +41,8 @@ export default function AllBounties() {
 
             <h1 className={styles.title}>All Polkadot Treasury Bounties</h1>
             <p className={styles.subtitle}>Showing both active and historical bounties</p>
+
+            <NetworkSelector onNetworkChange={setSelectedNetwork} initialNetwork={selectedNetwork} />
 
             <div className={styles.controls}>
                 <button
@@ -57,7 +61,11 @@ export default function AllBounties() {
             <div className={styles.cardGrid}>
                 {bounties.length > 0 ? (
                     bounties.map((bounty) => (
-                        <BountyCard key={bounty.proposal_id} bounty={bounty} />
+                        <BountyCard
+                            key={bounty.proposal_id}
+                            bounty={bounty}
+                            network={selectedNetwork}
+                        />
                     ))
                 ) : (
                     <div className={styles.emptyState}>
