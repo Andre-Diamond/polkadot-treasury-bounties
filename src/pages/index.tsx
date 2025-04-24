@@ -1,8 +1,7 @@
 // src/pages/index.tsx
 import styles from '../styles/Bounties.module.css';
 import BountyCard from '../components/BountyCard';
-import NetworkSelector from '../components/NetworkSelector';
-import Link from 'next/link';
+import NetworkViewSelector from '../components/NetworkViewSelector';
 import { useBounty } from '../context/BountyContext';
 
 export default function Home() {
@@ -12,8 +11,6 @@ export default function Home() {
         error,
         selectedNetwork,
         setSelectedNetwork,
-        fetchActiveBountiesData,
-        fetchAllBountiesData,
         view,
         setView
     } = useBounty();
@@ -22,46 +19,16 @@ export default function Home() {
         ? networkData[selectedNetwork].activeBounties
         : networkData[selectedNetwork].allBounties;
 
-    const handleRefresh = () => {
-        if (view === 'active') {
-            fetchActiveBountiesData();
-        } else {
-            fetchAllBountiesData();
-        }
-    };
-
     return (
         <main className={styles.container}>
             <h1 className={styles.title}>Polkadot Treasury Bounties</h1>
 
-            <NetworkSelector onNetworkChange={setSelectedNetwork} initialNetwork={selectedNetwork} />
-
-            <div className={styles.controls}>
-                <div className={styles.viewToggle}>
-                    <button
-                        className={`${styles.toggleButton} ${view === 'active' ? styles.active : ''}`}
-                        onClick={() => setView('active')}
-                    >
-                        Active
-                    </button>
-                    <button
-                        className={`${styles.toggleButton} ${view === 'all' ? styles.active : ''}`}
-                        onClick={() => setView('all')}
-                    >
-                        All
-                    </button>
-                </div>
-                <button
-                    onClick={handleRefresh}
-                    disabled={isLoading}
-                    className={styles.refreshButton}
-                >
-                    {isLoading ? 'Loading...' : 'Refresh Bounties'}
-                </button>
-                <Link href="/all-bounties" className={styles.allBountiesLink}>
-                    View All Bounties
-                </Link>
-            </div>
+            <NetworkViewSelector
+                onNetworkChange={setSelectedNetwork}
+                onViewChange={setView}
+                initialNetwork={selectedNetwork}
+                initialView={view}
+            />
 
             {error && (
                 <div className={styles.errorMessage}>{error}</div>
