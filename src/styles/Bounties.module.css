@@ -19,6 +19,7 @@
     display: flex;
     gap: 1rem;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .refreshButton {
@@ -170,4 +171,47 @@
     .cardGrid {
         grid-template-columns: 1fr;
     }
+}
+
+.allBountiesLink {
+    padding: 0.6rem 1.2rem;
+    background-color: var(--text-secondary);
+    color: var(--card-bg);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s, transform 0.1s;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.allBountiesLink:hover {
+    background-color: var(--text-primary);
+    transform: translateY(-1px);
+}
+
+.nav {
+    margin-bottom: 1.5rem;
+}
+
+.navLink {
+    color: var(--accent-color);
+    text-decoration: none;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    transition: color 0.2s;
+}
+
+.navLink:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    margin-top: -1rem;
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
 }

@@ -1,20 +1,11 @@
-// src/pages/index.tsx
 import { useState, useEffect } from 'react';
-import { fetchBountiesFromSubscan } from '../services/bountyService';
+import { fetchAllBounties } from '../services/bountyService';
 import type { Bounty } from '../types/bounty';
 import styles from '../styles/Bounties.module.css';
 import BountyCard from '../components/BountyCard';
 import Link from 'next/link';
 
-const CACHE_KEY = 'polkadot_bounties_cache';
-const CACHE_EXPIRY = 10 * 60 * 1000; // 10 minutes in milliseconds
-
-interface CacheData {
-    timestamp: number;
-    data: Bounty[];
-}
-
-export default function Home() {
+export default function AllBounties() {
     const [bounties, setBounties] = useState<Bounty[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -23,19 +14,11 @@ export default function Home() {
         setIsLoading(true);
         setError(null);
         try {
-            const data = await fetchBountiesFromSubscan();
+            const data = await fetchAllBounties();
             setBounties(data);
-
-            // Update cache
-            const cacheData: CacheData = {
-                timestamp: Date.now(),
-                data
-            };
-            localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
-
-            //console.log('Fetched bounties:', data);
+            console.log('Fetched all bounties:', data);
         } catch (error) {
-            console.error('Error fetching bounties:', error);
+            console.error('Error fetching all bounties:', error);
             setError('Failed to fetch bounties. Please try again.');
         } finally {
             setIsLoading(false);
@@ -43,25 +26,19 @@ export default function Home() {
     };
 
     useEffect(() => {
-        // Check cache on component mount
-        const cachedData = localStorage.getItem(CACHE_KEY);
-        if (cachedData) {
-            const { timestamp, data }: CacheData = JSON.parse(cachedData);
-            const now = Date.now();
-
-            if (now - timestamp < CACHE_EXPIRY) {
-                setBounties(data);
-                return;
-            }
-        }
-
-        // If no cache or cache expired, fetch new data
         fetchBounties();
     }, []);
 
     return (
         <main className={styles.container}>
-            <h1 className={styles.title}>Active Polkadot Treasury Bounties</h1>
+            <div className={styles.nav}>
+                <Link href="/" className={styles.navLink}>
+                    ← Back to Active Bounties
+                </Link>
+            </div>
+
+            <h1 className={styles.title}>All Polkadot Treasury Bounties</h1>
+            <p className={styles.subtitle}>Showing both active and historical bounties</p>
 
             <div className={styles.controls}>
                 <button
@@ -69,11 +46,8 @@ export default function Home() {
                     disabled={isLoading}
                     className={styles.refreshButton}
                 >
-                    {isLoading ? 'Loading...' : 'Refresh Bounties'}
+                    {isLoading ? 'Loading...' : 'Refresh All Bounties'}
                 </button>
-                <Link href="/all-bounties" className={styles.allBountiesLink}>
-                    View All Bounties
-                </Link>
             </div>
 
             {error && (
@@ -88,11 +62,11 @@ export default function Home() {
                 ) : (
                     <div className={styles.emptyState}>
                         {isLoading
-                            ? 'Loading bounties...'
+                            ? 'Loading all bounties...'
                             : 'No bounties found. Click refresh to fetch bounties.'}
                     </div>
                 )}
             </div>
         </main>
     );
-}
+} 
