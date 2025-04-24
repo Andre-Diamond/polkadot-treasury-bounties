@@ -1,35 +1,20 @@
-import { useState, useEffect } from 'react';
-import { fetchAllBounties } from '../services/bountyService';
-import type { Bounty } from '../types/bounty';
 import styles from '../styles/Bounties.module.css';
 import BountyCard from '../components/BountyCard';
 import NetworkSelector from '../components/NetworkSelector';
 import Link from 'next/link';
+import { useBounty } from '../context/BountyContext';
 
 export default function AllBounties() {
-    const [bounties, setBounties] = useState<Bounty[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    const [selectedNetwork, setSelectedNetwork] = useState<'polkadot' | 'kusama'>('polkadot');
+    const {
+        networkData,
+        isLoading,
+        error,
+        selectedNetwork,
+        setSelectedNetwork,
+        fetchAllBountiesData
+    } = useBounty();
 
-    const fetchBounties = async () => {
-        setIsLoading(true);
-        setError(null);
-        try {
-            const data = await fetchAllBounties(selectedNetwork);
-            setBounties(data);
-            console.log('Fetched all bounties:', data);
-        } catch (error) {
-            console.error('Error fetching all bounties:', error);
-            setError('Failed to fetch bounties. Please try again.');
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchBounties();
-    }, [selectedNetwork]);
+    const allBounties = networkData[selectedNetwork].allBounties;
 
     return (
         <main className={styles.container}>
@@ -46,7 +31,7 @@ export default function AllBounties() {
 
             <div className={styles.controls}>
                 <button
-                    onClick={fetchBounties}
+                    onClick={fetchAllBountiesData}
                     disabled={isLoading}
                     className={styles.refreshButton}
                 >
@@ -59,8 +44,8 @@ export default function AllBounties() {
             )}
 
             <div className={styles.cardGrid}>
-                {bounties.length > 0 ? (
-                    bounties.map((bounty) => (
+                {allBounties.length > 0 ? (
+                    allBounties.map((bounty) => (
                         <BountyCard
                             key={bounty.proposal_id}
                             bounty={bounty}

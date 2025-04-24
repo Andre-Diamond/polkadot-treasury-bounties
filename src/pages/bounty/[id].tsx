@@ -1,55 +1,46 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
-import { fetchBountyById } from '../../services/bountyService';
-import type { Bounty } from '../../types/bounty';
 import styles from '../../styles/BountyDetail.module.css';
 import { formatTokenAmount } from '../../lib/format';
 import { getStatusClass, formatStatus, StylesType } from '../../lib/statusUtils';
 import { networks } from '../../config/networks';
+import { useBounty } from '../../context/BountyContext';
+import type { Bounty } from '../../types/bounty';
 
 export default function BountyDetailPage() {
     const router = useRouter();
-    const { id, network } = router.query;
+    const { id } = router.query;
+    const {
+        networkData,
+        selectedNetwork,
+        fetchBountyDetail,
+        isLoading,
+        error
+    } = useBounty();
+
     const [bounty, setBounty] = useState<Bounty | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    const selectedNetwork = (network as 'polkadot' | 'kusama') || 'polkadot';
 
     useEffect(() => {
         if (!id) return;
 
         const getBountyDetails = async () => {
-            setIsLoading(true);
-            setError(null);
-            try {
-                const proposalId = parseInt(id as string, 10);
-                console.log(`Fetching bounty with ID: ${proposalId}`);
-                const data = await fetchBountyById(proposalId, selectedNetwork);
-                if (data) {
-                    console.log('Bounty data fetched successfully:', data);
-                    setBounty(data);
-                } else {
-                    console.error('Bounty not found for ID:', proposalId);
-                    setError('Bounty not found');
-                }
-            } catch (err) {
-                console.error('Error fetching bounty details:', err);
-                setError('Failed to fetch bounty details. Please try again.');
-            } finally {
-                setIsLoading(false);
+            const proposalId = parseInt(id as string, 10);
+            // Check if we already have the bounty in context
+            if (networkData[selectedNetwork].bountyDetails[proposalId]) {
+                setBounty(networkData[selectedNetwork].bountyDetails[proposalId]);
+                return;
+            }
+
+            // Fetch bounty if not in context
+            const data = await fetchBountyDetail(proposalId);
+            if (data) {
+                setBounty(data);
             }
         };
 
         getBountyDetails();
-    }, [id, selectedNetwork]);
-
-    // Update URL when network changes
-    useEffect(() => {
-        if (network !== selectedNetwork) {
-            router.push(`/bounty/${id}?network=${selectedNetwork}`, undefined, { shallow: true });
-        }
-    }, [selectedNetwork, id, network, router]);
+    }, [id, selectedNetwork, networkData]);
 
     // Helper function to format date
     const formatDate = (timestamp?: number) => {
