@@ -1,22 +1,35 @@
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 1.5rem;
-    color: var(--text-primary);
+    padding: var(--container-padding);
 }
 
 .backButton {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: var(--text-secondary);
+    padding: 0.5rem 1rem;
+    background-color: var(--card-bg-secondary);
+    border-radius: var(--border-radius-md);
+    color: var(--text-primary);
     text-decoration: none;
     font-weight: 500;
-    transition: color 0.2s ease;
+    transition: all 0.2s ease;
+    border: 1px solid var(--border-color);
 }
 
 .backButton:hover {
-    color: var(--text-primary);
+    background-color: var(--card-bg-tertiary);
+    transform: translateY(-1px);
+    box-shadow: var(--hover-shadow);
+}
+
+.backButton svg {
+    transition: transform 0.2s ease;
+}
+
+.backButton:hover svg {
+    transform: translateX(-2px);
 }
 
 .loading,
@@ -72,10 +85,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
-    padding-top: 1.5rem;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding: var(--card-padding);
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius-md);
+    margin-bottom: var(--section-gap);
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--card-border);
 }
 
 .title {
@@ -94,9 +109,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: rgba(46, 46, 46, 0.6);
+    background-color: var(--card-bg-secondary);
     padding: 0.3rem 0.6rem;
-    border-radius: 4px;
+    border-radius: var(--border-radius-sm);
     font-size: 0.9rem;
     color: var(--text-secondary);
     font-weight: 600;
@@ -107,8 +122,8 @@
 .twoColGrid {
     display: grid;
     grid-template-columns: 1fr 320px;
-    gap: 1.5rem;
-    padding: 1.5rem;
+    gap: var(--section-gap);
+    padding: var(--card-padding);
 }
 
 @media (max-width: 1024px) {
@@ -124,14 +139,14 @@
 .mainContent {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: var(--section-gap);
 }
 
 /* Metadata card */
 .metadataCard {
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    padding: 1.25rem;
+    background-color: var(--card-bg-secondary);
+    border-radius: var(--border-radius-md);
+    padding: var(--card-padding);
     border: 1px solid var(--border-color);
 }
 
@@ -141,11 +156,6 @@
     color: var(--accent-color);
     font-family: 'Roboto Mono', monospace, 'SF Mono', 'Consolas';
     letter-spacing: 0.02em;
-    font-feature-settings: 'tnum' on, 'lnum' on;
-    text-rendering: geometricPrecision;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    transform: translateZ(0);
     margin-bottom: 1rem;
 }
 
@@ -154,10 +164,6 @@
     color: var(--accent-color);
     font-family: 'Roboto Mono', monospace, 'SF Mono', 'Consolas';
     letter-spacing: 0.02em;
-    text-rendering: geometricPrecision;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    transform: translateZ(0);
     display: inline-block;
     padding: 1px 0;
 }
@@ -184,7 +190,7 @@
 
 .status {
     padding: 0.4rem 0.8rem;
-    border-radius: 6px;
+    border-radius: var(--border-radius-sm);
     font-weight: 600;
     display: inline-flex;
     align-items: center;
@@ -215,18 +221,18 @@
 
 /* Detail cards */
 .detailCard {
-    background-color: rgba(0, 0, 0, 0.15);
-    border-radius: 8px;
-    padding: 1.25rem;
+    background-color: var(--card-bg-secondary);
+    border-radius: var(--border-radius-md);
+    padding: var(--card-padding);
     border: 1px solid var(--border-color);
 }
 
 .sidebarCard {
-    background-color: rgba(0, 0, 0, 0.15);
-    border-radius: 8px;
-    padding: 1.25rem;
+    background-color: var(--card-bg-secondary);
+    border-radius: var(--border-radius-md);
+    padding: var(--card-padding);
     border: 1px solid var(--border-color);
-    margin-bottom: 1.25rem;
+    margin-bottom: var(--section-gap);
 }
 
 .sectionTitle {
@@ -263,9 +269,9 @@
 
 .accountAddress {
     font-family: 'Roboto Mono', monospace, 'SF Mono', 'Consolas';
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: var(--card-bg-tertiary);
     padding: 0.4rem 0.6rem;
-    border-radius: 4px;
+    border-radius: var(--border-radius-sm);
     font-size: 0.9rem;
     margin-top: 0.25rem;
 }
@@ -280,9 +286,9 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.75rem;
-    background-color: rgba(0, 0, 0, 0.2);
+    background-color: var(--card-bg-tertiary);
     padding: 0.75rem;
-    border-radius: 6px;
+    border-radius: var(--border-radius-sm);
 }
 
 .curatorInfo span {
@@ -315,8 +321,8 @@
     position: relative;
     margin-bottom: 1.25rem;
     padding: 0.75rem;
-    background-color: rgba(46, 46, 46, 0.4);
-    border-radius: 6px;
+    background-color: var(--card-bg-tertiary);
+    border-radius: var(--border-radius-sm);
     border-left: 3px solid var(--accent-color);
     transition: transform 0.2s ease;
     display: flex;
@@ -407,4 +413,16 @@
 .accountLink:hover {
     color: var(--text-primary);
     text-decoration: underline;
+}
+
+.networkDisplay {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background-color: var(--card-bg-secondary);
+    border-radius: var(--border-radius-md);
+    font-weight: 500;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
 }

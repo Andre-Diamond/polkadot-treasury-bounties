@@ -3,24 +3,46 @@
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 25, 25, 28;
     --background-end-rgb: 15, 15, 18;
-    --card-bg: #1F2937;
-    --card-border: #374151;
+
+    /* Colors */
     --text-primary: #F9FAFB;
     --text-secondary: #D1D5DB;
     --text-muted: #9CA3AF;
     --accent-color: #FF0080;
     --accent-hover: #D10069;
     --accent-disabled: #FF80BF;
+
+    /* Backgrounds */
+    --card-bg: #1F2937;
+    --card-bg-secondary: #0F172A;
+    --card-bg-tertiary: #1E293B;
+    --card-footer-bg: #111827;
+
+    /* Borders */
+    --card-border: #374151;
+    --border-color: #374151;
+
+    /* Shadows */
     --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     --hover-shadow: 0 10px 15px rgba(0, 0, 0, 0.4);
-    --border-color: #374151;
+
+    /* Status Colors */
     --error-color: #f56565;
     --error-bg: #3B1A1A;
     --status-active-bg: rgba(72, 187, 120, 0.15);
     --status-active-text: #6EE7B7;
     --status-pending-bg: rgba(237, 137, 54, 0.15);
     --status-pending-text: #FBBF24;
-    --card-footer-bg: #111827;
+
+    /* Spacing */
+    --container-padding: 1.5rem;
+    --card-padding: 1.25rem;
+    --section-gap: 1.5rem;
+
+    /* Border Radius */
+    --border-radius-sm: 0.375rem;
+    --border-radius-md: 0.5rem;
+    --border-radius-lg: 0.75rem;
 }
 
 body {
@@ -35,27 +57,98 @@ body {
     text-rendering: optimizeLegibility;
 }
 
-/* Fix for blurry pink text */
+/* Container Styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: var(--container-padding);
+}
+
+/* Card Styles */
+.card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--card-shadow);
+    border: 1px solid var(--card-border);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--hover-shadow);
+}
+
+/* Loading and Error States */
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2rem;
+    color: var(--text-muted);
+    background-color: rgba(0, 112, 243, 0.1);
+    border-radius: var(--border-radius-md);
+    border: 1px solid rgba(56, 189, 248, 0.3);
+}
+
+.error {
+    padding: 1rem;
+    background-color: var(--error-bg);
+    color: var(--error-color);
+    border-radius: var(--border-radius-md);
+    border: 1px solid rgba(245, 101, 101, 0.3);
+}
+
+/* Scrollbar Styles */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--card-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--text-muted);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--text-primary);
+    margin: 0;
+    line-height: 1.2;
+}
+
+/* Links */
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+a:hover {
+    color: var(--accent-hover);
+}
+
+/* Fix for blurry text */
 * {
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Specific fix for pink text elements */
-.timelineStatus,
-.value,
-.timelineItem:before,
-.timelineItem,
-.bountyDetail::before,
-.navLink {
-    text-rendering: geometricPrecision;
-    -webkit-font-smoothing: antialiased;
-    font-weight: 600;
-    /* Slightly increase font weight for better rendering */
-}
-
-/* Custom selector to override elements using accent-color */
+/* Specific fix for accent color elements */
 [style*="--accent-color"],
 *[style*="color:var(--accent-color)"],
 .value,
@@ -64,12 +157,9 @@ body {
 .timelineItem,
 .bountyDetail::before,
 .navLink {
-    color: #FF0080 !important;
-    /* Force the color instead of using the variable */
-    -webkit-font-smoothing: antialiased !important;
-    -moz-osx-font-smoothing: grayscale !important;
-    text-rendering: geometricPrecision !important;
-    font-weight: 600 !important;
+    text-rendering: geometricPrecision;
+    -webkit-font-smoothing: antialiased;
+    font-weight: 600;
 }
 
 .address-with-icon {

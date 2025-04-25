@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Head from "next/head";
 import "../styles/globals.css";
 import { BountyProvider } from '../context/BountyContext';
+import Navbar from '../components/Navbar';
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -23,6 +24,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
     return (
         <BountyProvider>
+            <Navbar />
             <div className={`${geistSans.variable} ${geistMono.variable}`}>
                 <Head>
                     <style dangerouslySetInnerHTML={{
