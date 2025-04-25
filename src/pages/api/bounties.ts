@@ -38,7 +38,8 @@ export default async function handler(
             {
                 row: 100,
                 page,
-                status
+                status,
+                include: ['block_timestamp']
             },
             {
                 headers: {
