@@ -3,6 +3,8 @@ import styles from '../styles/Bounties.module.css';
 import type { Bounty } from '../types/bounty';
 import { useRouter } from 'next/router';
 import { getStatusClass, formatStatus, StylesType } from '../lib/statusUtils';
+import { formatAddress as formatAddressWithIcon } from '../lib/formatAddress';
+import Link from 'next/link';
 
 interface BountyCardProps {
     bounty: Bounty;
@@ -10,9 +12,9 @@ interface BountyCardProps {
 }
 
 // Helper function to format address
-const formatAddress = (address: string): string => {
+const formatAddress = (address: string): React.ReactNode => {
     if (!address) return '';
-    return `${address.slice(0, 6)}...${address.slice(-6)}`;
+    return formatAddressWithIcon(address);
 };
 
 const BountyCard: React.FC<BountyCardProps> = ({ bounty, network }) => {
@@ -30,7 +32,11 @@ const BountyCard: React.FC<BountyCardProps> = ({ bounty, network }) => {
             </div>
             <div className={styles.cardContent}>
                 <div className={styles.bountyProposer}>
-                    <span>Proposer:</span> {bounty.proposer.display || formatAddress(bounty.proposer.address)}
+                    <span>Proposer:</span> {bounty.proposer.display || (
+                        <Link href={`/account/${bounty.proposer.address}?network=${network}`} className={styles.accountLink}>
+                            {formatAddress(bounty.proposer.address)}
+                        </Link>
+                    )}
                 </div>
                 <div className={styles.bountyDescription}>
                     {bounty.description.length > 120

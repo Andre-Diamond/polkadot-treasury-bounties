@@ -397,3 +397,14 @@
     border-top: 5px solid var(--text-secondary);
     pointer-events: none;
 }
+
+.accountLink {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-family: monospace;
+}
+
+.accountLink:hover {
+    color: var(--text-primary);
+    text-decoration: underline;
+}

@@ -71,3 +71,24 @@ body {
     text-rendering: geometricPrecision !important;
     font-weight: 600 !important;
 }
+
+.address-with-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: monospace;
+    color: #94a3b8;
+    font-size: 0.875rem;
+    letter-spacing: 0.025em;
+}
+
+.address-icon {
+    border-radius: 50%;
+    background: var(--background-color);
+    box-shadow: 0 0 0 1px var(--border-color);
+    flex-shrink: 0;
+}
+
+.address-text {
+    line-height: 1;
+}
