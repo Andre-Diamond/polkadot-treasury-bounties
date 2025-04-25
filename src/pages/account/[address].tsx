@@ -89,9 +89,9 @@ export default function AccountDetailPage() {
                             {account.display || 'Unknown Account'}
                         </h1>
                     </div>
-                    <div className={styles.address} title={account.address}>
+                    <Link href={`/account/${account.address}`} className={styles.address} title={account.address}>
                         {formatAddress(account.address)}
-                    </div>
+                    </Link>
                 </header>
 
                 <div className={styles.twoColGrid}>

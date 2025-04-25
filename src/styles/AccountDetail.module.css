@@ -110,13 +110,26 @@
     color: #f8fafc;
 }
 
-.address {
+.address,
+.address * {
+    color: #94a3b8 !important;
     font-family: monospace;
-    color: #94a3b8;
     font-size: 0.875rem;
     margin-top: 0.25rem;
-    cursor: help;
+    cursor: pointer;
     letter-spacing: 0.025em;
+    transition: color 0.2s ease !important;
+    text-decoration: none !important;
+}
+
+.address:hover,
+.address:hover * {
+    color: #ec4899 !important;
+}
+
+.address .address-text {
+    color: inherit;
+    transition: color 0.2s ease;
 }
 
 .twoColGrid {
@@ -204,18 +217,25 @@
     margin-bottom: 0.25rem;
 }
 
-.signerLink {
+.signerLink,
+.signerLink * {
+    color: #60a5fa !important;
     font-family: monospace;
-    color: #60a5fa;
-    text-decoration: none;
+    text-decoration: none !important;
     word-break: break-all;
-    transition: color 0.2s ease;
-    cursor: help;
+    transition: color 0.2s ease !important;
+    cursor: pointer;
     letter-spacing: 0.025em;
 }
 
-.signerLink:hover {
-    color: #93c5fd;
+.signerLink:hover,
+.signerLink:hover * {
+    color: #ec4899 !important;
+}
+
+.signerLink .address-text {
+    color: inherit;
+    transition: color 0.2s ease;
 }
 
 .sidebar {

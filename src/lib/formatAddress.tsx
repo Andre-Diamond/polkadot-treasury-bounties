@@ -9,7 +9,15 @@ export const formatAddress = (address: string, prefixLength: number = 6, suffixL
     return (
         <span className="address-with-icon">
             <Identicon address={address} size={32} className="address-icon" />
-            <span className="address-text">{formattedAddress}</span>
+            <span
+                className="address-text"
+                style={{
+                    color: 'inherit',
+                    transition: 'color 0.2s ease'
+                }}
+            >
+                {formattedAddress}
+            </span>
         </span>
     );
 }; 
