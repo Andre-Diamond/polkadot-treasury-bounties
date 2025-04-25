@@ -182,13 +182,13 @@
 }
 
 .statusAwarded {
-    background-color: rgba(16, 185, 129, 0.15);
-    color: #10B981;
+    background-color: var(--status-active-bg);
+    color: var(--status-active-text);
 }
 
 .statusRejected {
-    background-color: rgba(239, 68, 68, 0.15);
-    color: #EF4444;
+    background-color: var(--error-bg);
+    color: var(--error-color);
 }
 
 .emptyState {

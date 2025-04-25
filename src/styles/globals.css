@@ -1,37 +1,37 @@
 :root {
     /* Dark mode only */
     --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 25, 25, 28;
-    --background-end-rgb: 15, 15, 18;
+    --background-start-rgb: 17, 17, 17;
+    --background-end-rgb: 10, 10, 10;
 
     /* Colors */
-    --text-primary: #F9FAFB;
-    --text-secondary: #D1D5DB;
-    --text-muted: #9CA3AF;
+    --text-primary: #FFFFFF;
+    --text-secondary: #A3A3A3;
+    --text-muted: #6B7280;
     --accent-color: #FF0080;
     --accent-hover: #D10069;
     --accent-disabled: #FF80BF;
 
     /* Backgrounds */
-    --card-bg: #1F2937;
-    --card-bg-secondary: #0F172A;
-    --card-bg-tertiary: #1E293B;
-    --card-footer-bg: #111827;
+    --card-bg: #1A1A1A;
+    --card-bg-secondary: #141414;
+    --card-bg-tertiary: #1F1F1F;
+    --card-footer-bg: #121212;
 
     /* Borders */
-    --card-border: #374151;
-    --border-color: #374151;
+    --card-border: #2A2A2A;
+    --border-color: #2A2A2A;
 
     /* Shadows */
     --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     --hover-shadow: 0 10px 15px rgba(0, 0, 0, 0.4);
 
     /* Status Colors */
-    --error-color: #f56565;
-    --error-bg: #3B1A1A;
-    --status-active-bg: rgba(72, 187, 120, 0.15);
+    --error-color: #FF4D4D;
+    --error-bg: #2A1A1A;
+    --status-active-bg: rgba(110, 231, 183, 0.15);
     --status-active-text: #6EE7B7;
-    --status-pending-bg: rgba(237, 137, 54, 0.15);
+    --status-pending-bg: rgba(251, 191, 36, 0.15);
     --status-pending-text: #FBBF24;
 
     /* Spacing */

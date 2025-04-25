@@ -319,13 +319,13 @@
 }
 
 .badge {
-    background-color: rgba(96, 165, 250, 0.1);
-    color: #60a5fa;
+    background-color: var(--status-active-bg);
+    color: var(--status-active-text);
     padding: 0.25rem 0.5rem;
     border-radius: var(--border-radius-sm);
     font-size: 0.75rem;
     font-weight: 500;
-    border: 1px solid rgba(96, 165, 250, 0.2);
+    border: 1px solid var(--border-color);
 }
 
 @media (max-width: 768px) {
