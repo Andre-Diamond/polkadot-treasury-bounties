@@ -35,7 +35,7 @@
 
 .button.active {
     background-color: var(--accent-color);
-    color: white;
+    color: black;
     font-weight: 600;
 }
 
