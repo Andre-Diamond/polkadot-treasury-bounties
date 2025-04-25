@@ -2,6 +2,8 @@
     max-width: 1200px;
     margin: 0 auto;
     padding: 2rem;
+    background-color: #0f172a;
+    min-height: 100vh;
 }
 
 .header {
@@ -15,54 +17,79 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: var(--text-secondary);
+    color: #94a3b8;
     text-decoration: none;
     font-weight: 500;
+    transition: color 0.2s;
 }
 
 .backButton:hover {
-    color: var(--text-primary);
+    color: #e2e8f0;
 }
 
 .networkDisplay {
+    background: #1e293b;
     padding: 0.5rem 1rem;
-    background: var(--bg-secondary);
-    border-radius: 0.5rem;
+    border-radius: 1rem;
+    font-size: 0.875rem;
     font-weight: 500;
-}
-
-.loading,
-.error {
-    text-align: center;
-    padding: 2rem;
-    margin: 2rem 0;
-    border-radius: 0.5rem;
+    color: #e2e8f0;
 }
 
 .loading {
-    background: var(--bg-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2rem;
+    color: #94a3b8;
+}
+
+.spinner {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 2px solid #1e293b;
+    border-top: 2px solid #60a5fa;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .error {
-    background: var(--error-bg);
-    color: var(--error-text);
+    background: #7f1d1d;
+    color: #fecaca;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin: 1rem 0;
 }
 
 .accountDetail {
-    background: var(--bg-primary);
+    background: #1e293b;
     border-radius: 1rem;
-    padding: 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
 }
 
 .title {
-    font-size: 2rem;
+    font-size: 1.5rem;
+    font-weight: 600;
     margin: 0;
-    color: var(--text-primary);
+    color: #f8fafc;
 }
 
 .address {
     font-family: monospace;
-    color: var(--text-secondary);
+    color: #94a3b8;
+    font-size: 0.875rem;
     margin-top: 0.5rem;
 }
 
@@ -70,113 +97,186 @@
     display: grid;
     grid-template-columns: 2fr 1fr;
     gap: 2rem;
-    margin-top: 2rem;
+    padding: 2rem;
 }
 
 .mainContent {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem;
+}
+
+.balanceCard,
+.multisigCard,
+.sidebarCard {
+    background: #0f172a;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.sectionTitle {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+    color: #f8fafc;
+}
+
+.balanceGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.balanceItem {
+    background: #1e293b;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.balanceLabel {
+    display: block;
+    font-size: 0.875rem;
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+}
+
+.balanceValue {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #f8fafc;
+}
+
+.multisigGrid {
+    display: grid;
+    gap: 1rem;
+}
+
+.signer {
+    background: #1e293b;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.signerLabel {
+    display: block;
+    font-size: 0.875rem;
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+}
+
+.signerLink {
+    font-family: monospace;
+    color: #60a5fa;
+    text-decoration: none;
+    word-break: break-all;
+}
+
+.signerLink:hover {
+    text-decoration: underline;
+    color: #93c5fd;
 }
 
 .sidebar {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.5rem;
 }
 
-.balanceCard,
-.vestingCard,
-.stakingCard,
-.sidebarCard,
-.multisigCard {
-    background: var(--bg-secondary);
-    border-radius: 0.5rem;
-    padding: 1.5rem;
-}
-
-.sectionTitle {
-    font-size: 1.25rem;
-    margin: 0 0 1rem;
-    color: var(--text-primary);
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.balanceGrid,
-.vestingGrid,
-.stakingGrid,
 .identityGrid,
 .socialGrid,
-.multisigGrid,
 .infoGrid {
     display: grid;
     gap: 1rem;
-}
-
-.balanceGrid {
-    grid-template-columns: repeat(2, 1fr);
-}
-
-.vestingGrid,
-.stakingGrid,
-.identityGrid,
-.socialGrid,
-.multisigGrid,
-.infoGrid {
-    grid-template-columns: 1fr;
-}
-
-.tokenValue {
-    font-weight: 500;
-    color: var(--text-primary);
 }
 
 .verified {
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: var(--success-text);
+    color: #34d399;
     font-weight: 500;
 }
 
-.signer {
+.judgements {
+    background: #1e293b;
     padding: 1rem;
-    background: var(--bg-primary);
     border-radius: 0.5rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.signer span {
-    color: var(--text-secondary);
+.judgementsLabel {
+    display: block;
     font-size: 0.875rem;
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
 }
 
-.signer div {
-    font-family: monospace;
-    margin-top: 0.25rem;
+.judgementsList {
+    display: grid;
+    gap: 0.5rem;
 }
 
-.badge {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    background: var(--bg-primary);
-    color: var(--text-primary);
+.judgementItem {
+    font-size: 0.875rem;
+    color: #f8fafc;
+}
+
+.socialItem {
+    background: #1e293b;
+    padding: 1rem;
     border-radius: 0.5rem;
-    font-weight: 500;
-    margin-top: 0.5rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-.signerLink {
-    color: var(--primary-color);
-    text-decoration: none;
-    transition: color 0.2s ease;
+.socialLabel {
+    display: block;
+    font-size: 0.875rem;
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+}
+
+.socialValue {
+    font-size: 0.875rem;
+    color: #f8fafc;
     word-break: break-all;
 }
 
-.signerLink:hover {
-    color: var(--primary-color-hover);
-    text-decoration: underline;
+.infoItem {
+    background: #1e293b;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.infoLabel {
+    display: block;
+    font-size: 0.875rem;
+    color: #94a3b8;
+    margin-bottom: 0.5rem;
+}
+
+.infoValue {
+    font-size: 0.875rem;
+    color: #f8fafc;
+}
+
+.badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.badge {
+    background: #1e3a8a;
+    color: #bfdbfe;
+    padding: 0.5rem 1rem;
+    border-radius: 1rem;
+    font-size: 0.75rem;
+    font-weight: 500;
 }
 
 @media (max-width: 768px) {
