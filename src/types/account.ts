@@ -2,9 +2,55 @@ export interface AccountResponse {
     account: AccountInfo;
 }
 
+export interface PeopleData {
+    display?: string;
+    identity?: boolean;
+    judgements?: RegistrationJudgementJson[];
+    parent?: AccountParentJson;
+}
+
+export interface ExtraData {
+    amount?: string;
+    conviction?: string;
+    origins?: number;
+    proxy_type?: string;
+    [key: string]: unknown;
+}
+
+export interface ProxyData {
+    proxy_type: string;
+    delay: number;
+    [key: string]: unknown;
+}
+
+export interface RegistrarInfo {
+    registrar_fee: string;
+    registrar_index: number;
+}
+
+export interface StakingInfo {
+    controller: string;
+    controller_display: AccountDisplay;
+    reward_account: string;
+    reward_display: AccountDisplay;
+}
+
+export interface VestingInfo {
+    linear_schedules: LinearVestingSchedule[];
+    orml_schedules: OrmlVestingSchedule[];
+    pallet_schedules: PalletVestingSchedule[];
+    total_locked: string;
+    type: string;
+}
+
 export interface AccountInfo {
     address: string;
     display: string;
+    account_display: {
+        address: string;
+        people: Record<string, PeopleData>;
+        identity: boolean;
+    };
     balance: string;
     reserved: string;
     bonded: string;
@@ -13,41 +59,48 @@ export interface AccountInfo {
     count_extrinsic: number;
     is_council_member: boolean;
     is_techcomm_member: boolean;
-    twitter: string;
-    matrix: string;
-    email: string;
-    web: string;
-    account_display: {
-        address: string;
-        identity: boolean;
-        people: {
-            display: string;
-        };
-        judgements: Array<{
-            index: number;
-            judgement: string;
-        }>;
-    };
+    is_fellowship_member: boolean;
+    is_registrar: boolean;
+    is_module_account: boolean;
+    is_evm_contract: boolean;
+    is_erc20: boolean;
+    is_erc721: boolean;
     judgements: Array<{
         index: number;
         judgement: string;
     }>;
-    multisig: {
+    multisig?: {
         multi_account: Array<{
             address: string;
-            people: Record<string, never>;
+            people: Record<string, PeopleData>;
         }>;
     };
+    // Social fields
+    twitter: string;
+    matrix: string;
+    email: string;
+    web: string;
+    discord: string;
+    github: string;
+    riot: string;
+    legal: string;
+    role: string;
+    // Additional fields
+    assets_tag: string | null;
     balance_lock: string;
     conviction_lock: string;
     democracy_lock: string;
     election_lock: string;
+    evm_account: string;
+    extra: ExtraData;
     lock: string;
     nft_amount: string;
-    proxy: Record<string, never>;
-    registrar_info: null;
-    staking_info: null;
-    vesting: null;
+    proxy: Record<string, ProxyData>;
+    registrar_info: RegistrarInfo;
+    staking_info: StakingInfo;
+    stash: string;
+    substrate_account: string | null;
+    vesting: VestingInfo;
 }
 
 export interface AccountDisplay {
@@ -128,13 +181,6 @@ export interface ProxyAccountInfoJson {
 export interface RoleRegistrarJson {
     registrar_fee: string;
     registrar_index: number;
-}
-
-export interface StakingAccount {
-    controller: string;
-    controller_display: AccountDisplay;
-    reward_account: string;
-    reward_display: AccountDisplay;
 }
 
 export interface VestingJson {

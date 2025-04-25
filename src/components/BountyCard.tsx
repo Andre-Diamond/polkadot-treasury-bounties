@@ -3,6 +3,7 @@ import styles from '../styles/Bounties.module.css';
 import type { Bounty } from '../types/bounty';
 import { useRouter } from 'next/router';
 import { getStatusClass, formatStatus, StylesType } from '../lib/statusUtils';
+import { formatAddress as formatAddressWithIcon } from '../lib/formatAddress';
 
 interface BountyCardProps {
     bounty: Bounty;
@@ -10,9 +11,9 @@ interface BountyCardProps {
 }
 
 // Helper function to format address
-const formatAddress = (address: string): string => {
+const formatAddress = (address: string): React.ReactNode => {
     if (!address) return '';
-    return `${address.slice(0, 6)}...${address.slice(-6)}`;
+    return formatAddressWithIcon(address);
 };
 
 const BountyCard: React.FC<BountyCardProps> = ({ bounty, network }) => {

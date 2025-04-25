@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styles from '../../styles/BountyDetail.module.css';
 import { formatTokenAmount } from '../../lib/format';
+import { formatAddress as formatAddressWithIcon } from '../../lib/formatAddress';
 import { getStatusClass, formatStatus, StylesType } from '../../lib/statusUtils';
 import { networks } from '../../config/networks';
 import { useBounty } from '../../context/BountyContext';
@@ -51,12 +52,7 @@ export default function BountyDetailPage() {
     // Helper function to format address
     const formatAddress = (address: string): React.ReactNode => {
         if (!address) return '';
-        const formattedAddress = `${address.slice(0, 6)}...${address.slice(-6)}`;
-        return (
-            <Link href={`/account/${address}`} className={styles.accountLink}>
-                {formattedAddress}
-            </Link>
-        );
+        return formatAddressWithIcon(address);
     };
 
     // Helper function to format token values

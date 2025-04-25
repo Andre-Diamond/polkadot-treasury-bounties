@@ -5,6 +5,8 @@ import styles from '../../styles/AccountDetail.module.css';
 import { networks } from '../../config/networks';
 import { useBounty } from '../../context/BountyContext';
 import { formatTokenAmount } from '../../lib/format';
+import { formatAddress } from '../../lib/formatAddress';
+import Identicon from '../../components/Identicon';
 import type { AccountInfo, AccountResponse } from '../../types/account';
 
 const formatBalance = (value: string | number) => {
@@ -81,10 +83,15 @@ export default function AccountDetailPage() {
 
             <div className={styles.accountDetail}>
                 <header className={styles.header}>
-                    <h1 className={styles.title}>
-                        {account.display || 'Unknown Account'}
-                    </h1>
-                    <div className={styles.address}>{account.address}</div>
+                    <div className={styles.titleContainer}>
+                        <Identicon address={account.address} size={40} className={styles.identicon} />
+                        <h1 className={styles.title}>
+                            {account.display || 'Unknown Account'}
+                        </h1>
+                    </div>
+                    <div className={styles.address} title={account.address}>
+                        {formatAddress(account.address)}
+                    </div>
                 </header>
 
                 <div className={styles.twoColGrid}>
@@ -113,6 +120,28 @@ export default function AccountDetailPage() {
                             </div>
                         </div>
 
+                        <div className={styles.accountInfoCard}>
+                            <h2 className={styles.sectionTitle}>Account Info</h2>
+                            <div className={styles.infoGrid}>
+                                <div className={styles.infoItem}>
+                                    <span className={styles.infoLabel}>Nonce</span>
+                                    <div className={styles.infoValue}>{account.nonce}</div>
+                                </div>
+                                <div className={styles.infoItem}>
+                                    <span className={styles.infoLabel}>Extrinsic Count</span>
+                                    <div className={styles.infoValue}>{account.count_extrinsic}</div>
+                                </div>
+                                <div className={styles.badges}>
+                                    {account.is_council_member && (
+                                        <div className={styles.badge}>Council Member</div>
+                                    )}
+                                    {account.is_techcomm_member && (
+                                        <div className={styles.badge}>Technical Committee Member</div>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
                         {account.multisig?.multi_account && account.multisig.multi_account.length > 0 && (
                             <div className={styles.multisigCard}>
                                 <h2 className={styles.sectionTitle}>Multisig Account</h2>
@@ -120,8 +149,8 @@ export default function AccountDetailPage() {
                                     {account.multisig.multi_account.map((signer, index) => (
                                         <div key={index} className={styles.signer}>
                                             <span className={styles.signerLabel}>Signer {index + 1}</span>
-                                            <Link href={`/account/${signer.address}`} className={styles.signerLink}>
-                                                {signer.address}
+                                            <Link href={`/account/${signer.address}`} className={styles.signerLink} title={signer.address}>
+                                                {formatAddress(signer.address)}
                                             </Link>
                                         </div>
                                     ))}
@@ -173,6 +202,24 @@ export default function AccountDetailPage() {
                                         <div className={styles.socialValue}>{account.matrix}</div>
                                     </div>
                                 )}
+                                {account.discord && (
+                                    <div className={styles.socialItem}>
+                                        <span className={styles.socialLabel}>Discord</span>
+                                        <div className={styles.socialValue}>{account.discord}</div>
+                                    </div>
+                                )}
+                                {account.github && (
+                                    <div className={styles.socialItem}>
+                                        <span className={styles.socialLabel}>GitHub</span>
+                                        <div className={styles.socialValue}>{account.github}</div>
+                                    </div>
+                                )}
+                                {account.riot && (
+                                    <div className={styles.socialItem}>
+                                        <span className={styles.socialLabel}>Riot</span>
+                                        <div className={styles.socialValue}>{account.riot}</div>
+                                    </div>
+                                )}
                                 {account.email && (
                                     <div className={styles.socialItem}>
                                         <span className={styles.socialLabel}>Email</span>
@@ -185,28 +232,18 @@ export default function AccountDetailPage() {
                                         <div className={styles.socialValue}>{account.web}</div>
                                     </div>
                                 )}
-                            </div>
-                        </div>
-
-                        <div className={styles.sidebarCard}>
-                            <h2 className={styles.sectionTitle}>Account Info</h2>
-                            <div className={styles.infoGrid}>
-                                <div className={styles.infoItem}>
-                                    <span className={styles.infoLabel}>Nonce</span>
-                                    <div className={styles.infoValue}>{account.nonce}</div>
-                                </div>
-                                <div className={styles.infoItem}>
-                                    <span className={styles.infoLabel}>Extrinsic Count</span>
-                                    <div className={styles.infoValue}>{account.count_extrinsic}</div>
-                                </div>
-                                <div className={styles.badges}>
-                                    {account.is_council_member && (
-                                        <div className={styles.badge}>Council Member</div>
-                                    )}
-                                    {account.is_techcomm_member && (
-                                        <div className={styles.badge}>Technical Committee Member</div>
-                                    )}
-                                </div>
+                                {account.legal && (
+                                    <div className={styles.socialItem}>
+                                        <span className={styles.socialLabel}>Legal</span>
+                                        <div className={styles.socialValue}>{account.legal}</div>
+                                    </div>
+                                )}
+                                {account.role && (
+                                    <div className={styles.socialItem}>
+                                        <span className={styles.socialLabel}>Role</span>
+                                        <div className={styles.socialValue}>{account.role}</div>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     </div>
