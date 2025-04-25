@@ -1,0 +1,193 @@
+.navbar {
+    background: linear-gradient(to bottom,
+            transparent,
+            rgb(var(--background-end-rgb))) rgb(var(--background-start-rgb));
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.navContent {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.75rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 3.5rem;
+}
+
+.leftSection {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    height: 2rem;
+}
+
+.logo:hover {
+    color: var(--accent-color);
+}
+
+.rightSection {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.controls {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    height: 2rem;
+}
+
+.networkDisplay {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 0.75rem;
+    background-color: var(--card-bg-secondary);
+    border-radius: var(--border-radius-md);
+    font-weight: 500;
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    font-size: 0.9rem;
+    line-height: 1;
+    height: 2rem;
+}
+
+.backButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0 0.75rem;
+    background-color: var(--card-bg-secondary);
+    border-radius: var(--border-radius-md);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    line-height: 1;
+    height: 2rem;
+}
+
+.backButton:hover {
+    background-color: var(--card-bg-tertiary);
+    transform: translateY(-1px);
+    box-shadow: var(--hover-shadow);
+}
+
+.backButton svg {
+    transition: transform 0.2s ease;
+}
+
+.backButton:hover svg {
+    transform: translateX(-2px);
+}
+
+/* NetworkViewSelector styles */
+.viewToggle {
+    display: flex;
+    background-color: var(--card-bg-secondary);
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    height: 2rem;
+}
+
+.toggleButton {
+    padding: 0 0.75rem;
+    border: none;
+    background: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    line-height: 1;
+    height: 2rem;
+}
+
+.toggleButton:hover {
+    background-color: var(--card-bg-tertiary);
+}
+
+.toggleButton.active {
+    background-color: var(--accent-color);
+    color: white;
+    font-weight: 600;
+}
+
+.networkSelect {
+    padding: 0 0.75rem;
+    background-color: var(--card-bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    color: var(--text-primary);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    height: 2rem;
+    font-size: 0.9rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+}
+
+.networkSelect:hover {
+    background-color: var(--card-bg-tertiary);
+}
+
+@media (max-width: 768px) {
+    .navContent {
+        flex-direction: column;
+        height: auto;
+        padding: 0.75rem;
+    }
+
+    .leftSection {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .rightSection {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .controls {
+        flex-direction: column;
+        width: 100%;
+        height: auto;
+    }
+
+    .viewToggle {
+        width: 100%;
+    }
+
+    .toggleButton {
+        flex: 1;
+        text-align: center;
+    }
+
+    .networkSelect {
+        width: 100%;
+    }
+}

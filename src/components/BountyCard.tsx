@@ -4,7 +4,7 @@ import type { Bounty } from '../types/bounty';
 import { useRouter } from 'next/router';
 import { getStatusClass, formatStatus, StylesType } from '../lib/statusUtils';
 import { formatAddress as formatAddressWithIcon } from '../lib/formatAddress';
-import Link from 'next/link';
+import { formatDate } from '../lib/formatDate';
 
 interface BountyCardProps {
     bounty: Bounty;
@@ -32,17 +32,13 @@ const BountyCard: React.FC<BountyCardProps> = ({ bounty, network }) => {
             </div>
             <div className={styles.cardContent}>
                 <div className={styles.bountyProposer}>
-                    <span>Proposer:</span> {bounty.proposer.display || (
-                        <Link href={`/account/${bounty.proposer.address}?network=${network}`} className={styles.accountLink}>
-                            {formatAddress(bounty.proposer.address)}
-                        </Link>
-                    )}
+                    <span>Proposer:</span> {bounty.proposer.display || formatAddress(bounty.proposer.address)}
                 </div>
-                <div className={styles.bountyDescription}>
-                    {bounty.description.length > 120
-                        ? `${bounty.description.substring(0, 120)}...`
-                        : bounty.description}
-                </div>
+                {bounty.block_timestamp && (
+                    <div className={styles.bountyDate}>
+                        <span>Proposed:</span> {formatDate(bounty.block_timestamp)}
+                    </div>
+                )}
             </div>
             <div className={styles.cardFooter}>
                 <div className={styles.bountyValue}>{bounty.value}</div>

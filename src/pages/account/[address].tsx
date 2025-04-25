@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import styles from '../../styles/AccountDetail.module.css';
-import { networks } from '../../config/networks';
 import { useBounty } from '../../context/BountyContext';
 import { formatTokenAmount } from '../../lib/format';
 import { formatAddress } from '../../lib/formatAddress';
@@ -61,18 +60,6 @@ export default function AccountDetailPage() {
 
     return (
         <div className={styles.container}>
-            <div className={styles.header}>
-                <button onClick={() => router.back()} className={styles.backButton}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M19 12H5M12 19l-7-7 7-7" />
-                    </svg>
-                    Back
-                </button>
-                <div className={styles.networkDisplay}>
-                    {networks[selectedNetwork].name}
-                </div>
-            </div>
-
             {isLoading && (
                 <div className={styles.loading}>
                     <div className={styles.spinner}></div>

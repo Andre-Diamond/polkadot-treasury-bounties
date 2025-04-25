@@ -1,7 +1,6 @@
 // src/pages/index.tsx
 import styles from '../styles/Bounties.module.css';
 import BountyCard from '../components/BountyCard';
-import NetworkViewSelector from '../components/NetworkViewSelector';
 import { useBounty } from '../context/BountyContext';
 
 export default function Home() {
@@ -10,9 +9,7 @@ export default function Home() {
         isLoading,
         error,
         selectedNetwork,
-        setSelectedNetwork,
-        view,
-        setView
+        view
     } = useBounty();
 
     const bounties = view === 'active'
@@ -21,14 +18,6 @@ export default function Home() {
 
     return (
         <main className={styles.container}>
-            <h1 className={styles.title}>Polkadot Treasury Bounties</h1>
-
-            <NetworkViewSelector
-                onNetworkChange={setSelectedNetwork}
-                onViewChange={setView}
-                initialNetwork={selectedNetwork}
-                initialView={view}
-            />
 
             {error && (
                 <div className={styles.errorMessage}>{error}</div>

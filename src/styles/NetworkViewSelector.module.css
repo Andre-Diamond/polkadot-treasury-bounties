@@ -1,36 +1,60 @@
 .container {
     display: flex;
     align-items: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
+    gap: 0.75rem;
+    height: 2rem;
 }
 
 .selector {
     display: flex;
-    background-color: var(--card-bg);
-    border-radius: 8px;
+    background-color: var(--card-bg-secondary);
+    border-radius: var(--border-radius-md);
     overflow: hidden;
     border: 1px solid var(--border-color);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 2rem;
 }
 
 .button {
-    padding: 0.5rem 1.25rem;
+    padding: 0 0.75rem;
     border: none;
     background: none;
     color: var(--text-secondary);
     cursor: pointer;
     font-weight: 500;
     transition: all 0.2s ease;
+    font-size: 0.9rem;
+    line-height: 1;
+    height: 2rem;
+    display: flex;
+    align-items: center;
 }
 
 .button:hover {
-    background-color: var(--hover-bg);
+    background-color: var(--card-bg-tertiary);
 }
 
 .button.active {
-    background-color: #E6007A;
-    color: white;
+    background-color: var(--accent-color);
+    color: black;
     font-weight: 600;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.networkSelect {
+    padding: 0 0.75rem;
+    background-color: var(--card-bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    color: var(--text-primary);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    height: 2rem;
+    font-size: 0.9rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+}
+
+.networkSelect:hover {
+    background-color: var(--card-bg-tertiary);
 }
