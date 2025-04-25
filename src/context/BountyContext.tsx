@@ -1,11 +1,13 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { fetchAllBounties, fetchBountyById, fetchBountiesFromSubscan } from '../services/bountyService';
 import type { Bounty } from '../types/bounty';
+import type { AccountInfo } from '../types/account';
 
 const CACHE_EXPIRY = 10 * 60 * 1000; // 10 minutes in milliseconds
 const ALL_BOUNTIES_CACHE_KEY = 'all_bounties_cache';
 const ACTIVE_BOUNTIES_CACHE_KEY = 'active_bounties_cache';
 const BOUNTY_DETAIL_CACHE_KEY = 'bounty_detail_cache';
+const ACCOUNT_INFO_CACHE_KEY = 'account_info_cache';
 
 interface CacheData<T> {
     timestamp: number;
@@ -16,6 +18,7 @@ interface NetworkData {
     allBounties: Bounty[];
     activeBounties: Bounty[];
     bountyDetails: Record<string, Bounty>;
+    accountInfo: Record<string, AccountInfo>;
 }
 
 interface BountyContextType {
@@ -30,6 +33,7 @@ interface BountyContextType {
     fetchAllBountiesData: () => Promise<void>;
     fetchActiveBountiesData: () => Promise<void>;
     fetchBountyDetail: (id: number) => Promise<Bounty | null>;
+    fetchAccountInfo: (address: string) => Promise<AccountInfo | null>;
     view: 'active' | 'all';
     setView: (view: 'active' | 'all') => void;
 }
@@ -41,12 +45,14 @@ export function BountyProvider({ children }: { children: ReactNode }) {
         polkadot: {
             allBounties: [],
             activeBounties: [],
-            bountyDetails: {}
+            bountyDetails: {},
+            accountInfo: {}
         },
         kusama: {
             allBounties: [],
             activeBounties: [],
-            bountyDetails: {}
+            bountyDetails: {},
+            accountInfo: {}
         }
     });
     const [isLoading, setIsLoading] = useState(false);
@@ -203,6 +209,61 @@ export function BountyProvider({ children }: { children: ReactNode }) {
         }
     };
 
+    const fetchAccountInfo = async (address: string): Promise<AccountInfo | null> => {
+        const cacheKey = `${ACCOUNT_INFO_CACHE_KEY}_${address}_${selectedNetwork}`;
+
+        // Check cache first
+        const cachedData = localStorage.getItem(cacheKey);
+        if (cachedData) {
+            const { timestamp, data }: CacheData<AccountInfo> = JSON.parse(cachedData);
+            const now = Date.now();
+
+            if (now - timestamp < CACHE_EXPIRY) {
+                setNetworkData(prev => ({
+                    ...prev,
+                    [selectedNetwork]: {
+                        ...prev[selectedNetwork],
+                        accountInfo: {
+                            ...prev[selectedNetwork].accountInfo,
+                            [address]: data
+                        }
+                    }
+                }));
+                return data;
+            }
+        }
+
+        try {
+            const response = await fetch(`/api/account/${address}?network=${selectedNetwork}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch account info');
+            }
+            const data = await response.json();
+
+            setNetworkData(prev => ({
+                ...prev,
+                [selectedNetwork]: {
+                    ...prev[selectedNetwork],
+                    accountInfo: {
+                        ...prev[selectedNetwork].accountInfo,
+                        [address]: data
+                    }
+                }
+            }));
+
+            // Update cache
+            const cacheData: CacheData<AccountInfo> = {
+                timestamp: Date.now(),
+                data
+            };
+            localStorage.setItem(cacheKey, JSON.stringify(cacheData));
+            return data;
+        } catch (error) {
+            console.error('Error fetching account info:', error);
+            return null;
+        }
+    };
+
     // Fetch data when network changes
     useEffect(() => {
         const fetchData = async () => {
@@ -225,6 +286,7 @@ export function BountyProvider({ children }: { children: ReactNode }) {
                 fetchAllBountiesData,
                 fetchActiveBountiesData,
                 fetchBountyDetail,
+                fetchAccountInfo,
                 view,
                 setView
             }}

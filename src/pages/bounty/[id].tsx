@@ -49,9 +49,14 @@ export default function BountyDetailPage() {
     };
 
     // Helper function to format address
-    const formatAddress = (address: string): string => {
+    const formatAddress = (address: string): React.ReactNode => {
         if (!address) return '';
-        return `${address.slice(0, 6)}...${address.slice(-6)}`;
+        const formattedAddress = `${address.slice(0, 6)}...${address.slice(-6)}`;
+        return (
+            <Link href={`/account/${address}`} className={styles.accountLink}>
+                {formattedAddress}
+            </Link>
+        );
     };
 
     // Helper function to format token values
