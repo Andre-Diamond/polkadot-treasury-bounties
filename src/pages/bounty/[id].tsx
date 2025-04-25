@@ -52,7 +52,11 @@ export default function BountyDetailPage() {
     // Helper function to format address
     const formatAddress = (address: string): React.ReactNode => {
         if (!address) return '';
-        return formatAddressWithIcon(address);
+        return (
+            <Link href={`/account/${address}?network=${selectedNetwork}`} className={styles.accountLink}>
+                {formatAddressWithIcon(address)}
+            </Link>
+        );
     };
 
     // Helper function to format token values
