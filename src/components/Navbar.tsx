@@ -14,7 +14,7 @@ export default function Navbar() {
             <div className={styles.navContent}>
                 <div className={styles.leftSection}>
                     <Link href="/" className={styles.logo}>
-                        Polkadot Treasury Bounties
+                        Treasury Bounties
                     </Link>
                 </div>
 
