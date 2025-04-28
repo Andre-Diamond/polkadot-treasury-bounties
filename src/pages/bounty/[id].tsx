@@ -71,7 +71,7 @@ export default function BountyDetailPage() {
             <polyline points="22 4 12 14.01 9 11.01"></polyline>
         </svg>
     );
-    console.log(bounty);
+
     return (
         <div className={styles.container}>
             {isLoading && <div className={styles.loading}>Loading bounty details...</div>}
@@ -102,7 +102,7 @@ export default function BountyDetailPage() {
                                     )}
                                     {(bounty.timeline) && (
                                         <div>
-                                            <span>Proposed</span>
+                                            <span>Created</span>
                                             <div>{bounty.timeline.find(item => item.status === 'proposed')?.time ? formatDate(bounty.timeline.find(item => item.status === 'proposed')!.time) : 'Unknown'}</div>
                                         </div>
                                     )}
@@ -142,18 +142,20 @@ export default function BountyDetailPage() {
                                         Timeline
                                     </h2>
                                     <div className={styles.timelineContainer}>
-                                        {bounty.timeline.map((item, index) => (
-                                            <div key={`${item.block}-${index}`} className={styles.timelineItem}>
-                                                <div className={styles.timelineStatus}>{item.status}</div>
-                                                <div className={styles.timelineDate}>
-                                                    {item.time ? formatDate(item.time) : 'Unknown'}
+                                        {bounty.timeline
+                                            .sort((a, b) => (b.time || 0) - (a.time || 0))
+                                            .map((item, index) => (
+                                                <div key={`${item.block}-${index}`} className={styles.timelineItem}>
+                                                    <div className={styles.timelineStatus}>{item.status}</div>
+                                                    <div className={styles.timelineDate}>
+                                                        {item.time ? formatDate(item.time) : 'Unknown'}
+                                                    </div>
+                                                    <div className={styles.timelineBlock}>
+                                                        Block: {item.block}
+                                                        {item.extrinsic_index && ` | Extrinsic: ${item.extrinsic_index}`}
+                                                    </div>
                                                 </div>
-                                                <div className={styles.timelineBlock}>
-                                                    Block: {item.block}
-                                                    {item.extrinsic_index && ` | Extrinsic: ${item.extrinsic_index}`}
-                                                </div>
-                                            </div>
-                                        ))}
+                                            ))}
                                     </div>
                                 </div>
                             )}
