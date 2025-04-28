@@ -7,6 +7,7 @@ import { formatAddress as formatAddressWithIcon } from '../../lib/formatAddress'
 import { getStatusClass, formatStatus, StylesType } from '../../lib/statusUtils';
 import { networks } from '../../config/networks';
 import { useBounty } from '../../context/BountyContext';
+import { formatDate } from '../../lib/formatDate';
 import type { Bounty } from '../../types/bounty';
 
 export default function BountyDetailPage() {
@@ -42,12 +43,6 @@ export default function BountyDetailPage() {
 
         getBountyDetails();
     }, [id, selectedNetwork, networkData]);
-
-    // Helper function to format date
-    const formatDate = (timestamp?: number) => {
-        if (!timestamp) return 'Unknown';
-        return new Date(timestamp * 1000).toLocaleDateString();
-    };
 
     // Helper function to format address
     const formatAddress = (address: string): React.ReactNode => {
@@ -105,15 +100,15 @@ export default function BountyDetailPage() {
                                             <div>{formatTokenValue(bounty.bond)}</div>
                                         </div>
                                     )}
-                                    {(bounty.block_timestamp || bounty.created_block) && (
+                                    {(bounty.timeline) && (
                                         <div>
                                             <span>Created</span>
-                                            <div>{formatDate(bounty.block_timestamp || (bounty.created_block ? bounty.created_block : undefined))}</div>
+                                            <div>{bounty.timeline.find(item => item.status === 'proposed')?.time ? formatDate(bounty.timeline.find(item => item.status === 'proposed')!.time) : 'Unknown'}</div>
                                         </div>
                                     )}
                                     {bounty.expire_block && (
                                         <div>
-                                            <span>Expiry</span>
+                                            <span>Expiry (Block)</span>
                                             <div>{bounty.expire_block}</div>
                                         </div>
                                     )}
@@ -147,18 +142,20 @@ export default function BountyDetailPage() {
                                         Timeline
                                     </h2>
                                     <div className={styles.timelineContainer}>
-                                        {bounty.timeline.map((item, index) => (
-                                            <div key={`${item.block}-${index}`} className={styles.timelineItem}>
-                                                <div className={styles.timelineStatus}>{item.status}</div>
-                                                <div className={styles.timelineDate}>
-                                                    {formatDate(item.time)}
+                                        {bounty.timeline
+                                            .sort((a, b) => (b.time || 0) - (a.time || 0))
+                                            .map((item, index) => (
+                                                <div key={`${item.block}-${index}`} className={styles.timelineItem}>
+                                                    <div className={styles.timelineStatus}>{item.status}</div>
+                                                    <div className={styles.timelineDate}>
+                                                        {item.time ? formatDate(item.time) : 'Unknown'}
+                                                    </div>
+                                                    <div className={styles.timelineBlock}>
+                                                        Block: {item.block}
+                                                        {item.extrinsic_index && ` | Extrinsic: ${item.extrinsic_index}`}
+                                                    </div>
                                                 </div>
-                                                <div className={styles.timelineBlock}>
-                                                    Block: {item.block}
-                                                    {item.extrinsic_index && ` | Extrinsic: ${item.extrinsic_index}`}
-                                                </div>
-                                            </div>
-                                        ))}
+                                            ))}
                                     </div>
                                 </div>
                             )}
