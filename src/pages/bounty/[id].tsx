@@ -7,6 +7,7 @@ import { formatAddress as formatAddressWithIcon } from '../../lib/formatAddress'
 import { getStatusClass, formatStatus, StylesType } from '../../lib/statusUtils';
 import { networks } from '../../config/networks';
 import { useBounty } from '../../context/BountyContext';
+import { formatDate } from '../../lib/formatDate';
 import type { Bounty } from '../../types/bounty';
 
 export default function BountyDetailPage() {
@@ -43,12 +44,6 @@ export default function BountyDetailPage() {
         getBountyDetails();
     }, [id, selectedNetwork, networkData]);
 
-    // Helper function to format date
-    const formatDate = (timestamp?: number) => {
-        if (!timestamp) return 'Unknown';
-        return new Date(timestamp * 1000).toLocaleDateString();
-    };
-
     // Helper function to format address
     const formatAddress = (address: string): React.ReactNode => {
         if (!address) return '';
@@ -76,7 +71,7 @@ export default function BountyDetailPage() {
             <polyline points="22 4 12 14.01 9 11.01"></polyline>
         </svg>
     );
-
+    console.log(bounty);
     return (
         <div className={styles.container}>
             {isLoading && <div className={styles.loading}>Loading bounty details...</div>}
@@ -105,15 +100,15 @@ export default function BountyDetailPage() {
                                             <div>{formatTokenValue(bounty.bond)}</div>
                                         </div>
                                     )}
-                                    {(bounty.block_timestamp || bounty.created_block) && (
+                                    {(bounty.timeline) && (
                                         <div>
-                                            <span>Created</span>
-                                            <div>{formatDate(bounty.block_timestamp || (bounty.created_block ? bounty.created_block : undefined))}</div>
+                                            <span>Proposed</span>
+                                            <div>{bounty.timeline.find(item => item.status === 'proposed')?.time ? formatDate(bounty.timeline.find(item => item.status === 'proposed')!.time) : 'Unknown'}</div>
                                         </div>
                                     )}
                                     {bounty.expire_block && (
                                         <div>
-                                            <span>Expiry</span>
+                                            <span>Expiry (Block)</span>
                                             <div>{bounty.expire_block}</div>
                                         </div>
                                     )}
@@ -151,7 +146,7 @@ export default function BountyDetailPage() {
                                             <div key={`${item.block}-${index}`} className={styles.timelineItem}>
                                                 <div className={styles.timelineStatus}>{item.status}</div>
                                                 <div className={styles.timelineDate}>
-                                                    {formatDate(item.time)}
+                                                    {item.time ? formatDate(item.time) : 'Unknown'}
                                                 </div>
                                                 <div className={styles.timelineBlock}>
                                                     Block: {item.block}
